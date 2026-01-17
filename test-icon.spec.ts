@@ -30,16 +30,18 @@ test('Verify IMDb icon in Navbar - no white edges', async ({ page }) => {
   const imageBox = await navbarImdbImage.boundingBox();
   console.log('Navbar IMDb icon dimensions:', imageBox);
   
-  // Verify size matches Instagram icon (w-5 h-5 = 20px)
+  // Verify height matches Instagram icon (h-5 = 20px)
   const instagramIcon = page.locator('nav a[aria-label="Instagram"] svg');
   const instagramBox = await instagramIcon.boundingBox();
   console.log('Instagram icon dimensions:', instagramBox);
   
-  // IMDb icon should be larger than Instagram (w-6 vs w-5)
+  // IMDb icon height should match Instagram (20px), width should scale proportionally
   if (imageBox && instagramBox) {
-    expect(imageBox.width).toBeGreaterThan(instagramBox.width);
-    expect(imageBox.height).toBeGreaterThan(instagramBox.height);
+    expect(Math.abs(imageBox.height - instagramBox.height)).toBeLessThan(1);
+    // Width should be proportional to maintain aspect ratio
+    expect(imageBox.width).toBeGreaterThan(0);
     console.log(`IMDb icon is ${imageBox.width}x${imageBox.height}, Instagram is ${instagramBox.width}x${instagramBox.height}`);
+    console.log(`Height match: ${Math.abs(imageBox.height - instagramBox.height) < 1 ? '✓' : '✗'}`);
   }
   
   // Verify the link href

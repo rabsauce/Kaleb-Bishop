@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Process IMDb icon: remove white background but preserve white text"""
+"""Process IMDb icon: ensure white text is white and remove white background"""
 
 from PIL import Image
 
 def process_imdb_icon(input_path, output_path):
-    """Remove white background edges but preserve white text content"""
+    """Process icon to ensure white text stays white and remove background"""
     # Open the original JPG
     img = Image.open(input_path)
     
@@ -17,13 +17,13 @@ def process_imdb_icon(input_path, output_path):
     pixels = img_rgba.load()
     width, height = img_rgba.size
     
-    # Strategy: Only remove white pixels that are clearly background
-    # Background white is usually at edges/corners and isolated
-    # White text is usually in the center and surrounded by colored (yellow) background
+    # Strategy: 
+    # 1. Identify the center area (where text is)
+    # 2. Make sure white/light pixels in center are pure white (255,255,255)
+    # 3. Remove white background at edges/corners
     
-    # Process: Only make transparent if pixel is:
-    # 1. Very white (RGB > 245) AND
-    # 2. At the edges/corners (background area)
+    center_x, center_y = width // 2, height // 2
+    center_region = 400  # Region around center to consider as text area
     
     edge_size = 150  # Pixels from edge to consider as background
     corner_size = 200  # Corner region size
@@ -33,25 +33,30 @@ def process_imdb_icon(input_path, output_path):
         for x in range(width):
             r, g, b, a = pixels[x, y]
             
-            # Check if pixel is very white
-            is_very_white = r > white_threshold and g > white_threshold and b > white_threshold
+            # Check if pixel is in center region (text area)
+            in_center = (abs(x - center_x) < center_region and 
+                        abs(y - center_y) < center_region)
             
-            if is_very_white:
-                # Check if pixel is at edge
-                is_edge = (x < edge_size or x > width - edge_size or 
-                          y < edge_size or y > height - edge_size)
-                
-                # Check if pixel is in corner region
-                is_corner = ((x < corner_size and y < corner_size) or
-                            (x > width - corner_size and y < corner_size) or
-                            (x < corner_size and y > height - corner_size) or
-                            (x > width - corner_size and y > height - corner_size))
-                
-                # Only make transparent if it's at edge/corner (background)
-                # Keep white pixels in center area (text)
-                if is_edge or is_corner:
-                    pixels[x, y] = (r, g, b, 0)
-                # Otherwise, keep the white pixel (it's part of the text)
+            # Check if pixel is very light/white
+            is_very_light = r > white_threshold and g > white_threshold and b > white_threshold
+            
+            if is_very_light:
+                if in_center:
+                    # In center region - ensure it's pure white (text)
+                    pixels[x, y] = (255, 255, 255, 255)
+                else:
+                    # Check if pixel is at edge/corner (background)
+                    is_edge = (x < edge_size or x > width - edge_size or 
+                              y < edge_size or y > height - edge_size)
+                    
+                    is_corner = ((x < corner_size and y < corner_size) or
+                                (x > width - corner_size and y < corner_size) or
+                                (x < corner_size and y > height - corner_size) or
+                                (x > width - corner_size and y > height - corner_size))
+                    
+                    # Make transparent if it's at edge/corner (background)
+                    if is_edge or is_corner:
+                        pixels[x, y] = (r, g, b, 0)
     
     # Find bounding box of non-transparent content
     bbox = img_rgba.getbbox()
@@ -63,7 +68,7 @@ def process_imdb_icon(input_path, output_path):
         # Save as PNG with transparency
         cropped.save(output_path, 'PNG', optimize=True)
         print(f"✓ Processed: {img.size} -> {cropped.size}")
-        print(f"✓ Preserved white text, removed white background edges, saved to: {output_path}")
+        print(f"✓ Ensured white text is pure white, removed white background edges")
         return True
     else:
         print("✗ Could not find content")

@@ -108,7 +108,8 @@ export default function Footer() {
                   <img
                     src="/images/imdb.png"
                     alt="IMDb"
-                    className="w-7 h-7 object-contain"
+                    className="h-6 object-contain"
+                    style={{ width: 'auto' }}
                   />
                 </a>
               )}

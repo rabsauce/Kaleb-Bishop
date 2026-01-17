@@ -108,7 +108,8 @@ export default function Navbar() {
                     <img
                       src="/images/imdb.png"
                       alt="IMDb"
-                      className="w-6 h-6 object-contain"
+                      className="h-5 object-contain"
+                      style={{ width: 'auto' }}
                     />
                   </a>
                 )}
