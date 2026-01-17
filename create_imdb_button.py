@@ -13,10 +13,10 @@ def create_imdb_button(output_path, size_px=200):
     # Calculate dimensions for the black rounded rectangle
     width, height = size_px, size_px
     
-    # Make the button larger to fill more of the canvas
+    # Make the button much larger - fill most of the canvas
     # The IMDb logo is a horizontal black rounded rectangle
-    button_height = int(size_px * 0.65)  # 65% of canvas height (larger)
-    button_width = int(size_px * 0.85)   # 85% of canvas width (wider, horizontal)
+    button_height = int(size_px * 0.80)  # 80% of canvas height (much larger)
+    button_width = int(size_px * 0.90)   # 90% of canvas width (wider, horizontal)
     
     # Center the button
     x1 = (width - button_width) // 2
@@ -37,7 +37,7 @@ def create_imdb_button(output_path, size_px=200):
     # Add white "IMDb" text
     try:
         # Try to find a bold system font
-        font_size = int(button_height * 0.55)  # 55% of button height for text (larger)
+        font_size = int(button_height * 0.60)  # 60% of button height for text (larger)
         font_paths = [
             '/System/Library/Fonts/Supplemental/Arial Bold.ttf',
             '/System/Library/Fonts/Helvetica.ttc',
@@ -80,11 +80,12 @@ def create_imdb_button(output_path, size_px=200):
     img.save(output_path, 'PNG', optimize=True)
     print(f"✓ Created IMDb button: {size_px}x{size_px}, saved to {output_path}")
     print(f"  Button size: {button_width}x{button_height}, corner radius: {corner_radius}")
+    print(f"  Button fills {button_width/size_px*100:.0f}% width, {button_height/size_px*100:.0f}% height")
     print(f"  Background: Transparent (no white)")
     return True
 
 if __name__ == '__main__':
-    # Create high-resolution version with larger button
+    # Create high-resolution version with much larger button
     output_path = 'public/images/imdb_button_large.png'
     create_imdb_button(output_path, size_px=200)
-    print(f"✓ IMDb button created with larger size and transparent background")
+    print(f"✓ IMDb button created with much larger size and transparent background")
