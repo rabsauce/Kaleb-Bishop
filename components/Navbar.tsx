@@ -102,15 +102,10 @@ export default function Navbar() {
                     href={profile.contact.social.imdb}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-accent-blue transition-colors inline-flex items-center justify-center"
+                    className="px-3 py-2 text-sm lg:text-base font-medium text-gray-300 hover:text-accent-blue transition-colors"
                     aria-label="IMDb"
                   >
-                    <img
-                      src="/images/imdb_button_large.png"
-                      alt="IMDb"
-                      className="h-5 object-contain"
-                      style={{ width: 'auto' }}
-                    />
+                    IMDb
                   </a>
                 )}
               </div>
