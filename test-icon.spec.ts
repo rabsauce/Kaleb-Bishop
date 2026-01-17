@@ -19,7 +19,7 @@ test('Verify IMDb text in Navbar matches navigation link styles', async ({ page 
   expect(textContent).toBe('IMDb');
   
   // Verify it uses the same styles as navigation links
-  const navLink = page.locator('nav a[href="/"]'); // Home link
+  const navLink = page.locator('nav a:has-text("Home")'); // Home navigation link
   const navLinkStyles = await navLink.evaluate((el) => {
     const styles = window.getComputedStyle(el);
     return {
