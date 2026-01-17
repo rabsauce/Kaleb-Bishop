@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Verify IMDb text in Navbar matches navigation link styles', async ({ page }) => {
+test('Verify IMDb text in Navbar uses font-display, bold, and white', async ({ page }) => {
   await page.goto('http://localhost:3000');
   
   // Wait for page to load
@@ -18,32 +18,38 @@ test('Verify IMDb text in Navbar matches navigation link styles', async ({ page 
   const textContent = await navbarImdbLink.textContent();
   expect(textContent).toBe('IMDb');
   
-  // Verify it uses the same styles as navigation links
-  const navLink = page.locator('nav a:has-text("Home")'); // Home navigation link
-  const navLinkStyles = await navLink.evaluate((el) => {
-    const styles = window.getComputedStyle(el);
-    return {
-      fontSize: styles.fontSize,
-      fontWeight: styles.fontWeight,
-      color: styles.color,
-    };
-  });
-  
+  // Get IMDb styles
   const imdbStyles = await navbarImdbLink.evaluate((el) => {
     const styles = window.getComputedStyle(el);
     return {
       fontSize: styles.fontSize,
       fontWeight: styles.fontWeight,
       color: styles.color,
+      fontFamily: styles.fontFamily,
     };
   });
   
-  console.log('Navigation link styles:', navLinkStyles);
-  console.log('IMDb link styles:', imdbStyles);
+  // Get Kaleb Bishop logo styles for comparison
+  const logoLink = page.locator('nav a:has-text("Kaleb Bishop")');
+  const logoStyles = await logoLink.evaluate((el) => {
+    const styles = window.getComputedStyle(el);
+    return {
+      fontFamily: styles.fontFamily,
+      fontWeight: styles.fontWeight,
+    };
+  });
   
-  // Font size should match
-  expect(imdbStyles.fontSize).toBe(navLinkStyles.fontSize);
-  expect(imdbStyles.fontWeight).toBe(navLinkStyles.fontWeight);
+  console.log('IMDb link styles:', imdbStyles);
+  console.log('Logo styles (Kaleb Bishop):', logoStyles);
+  
+  // Verify it uses font-display (same as Kaleb Bishop)
+  expect(imdbStyles.fontFamily).toContain('Bebas Neue');
+  
+  // Verify it's bold (700)
+  expect(imdbStyles.fontWeight).toBe('700');
+  
+  // Verify it's white
+  expect(imdbStyles.color).toBe('rgb(255, 255, 255)');
   
   // Verify the link href
   const href = await navbarImdbLink.getAttribute('href');
