@@ -37,7 +37,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
   const allCredits = filteredCredits
 
   // Group credits by category
-  const stuntRoles = ['Stunt Performer', 'Stunt Double', 'Stunt Coordinator', 'Stunt Driver', 'Specialty Stunt', 'Stunt Previs', 'Utility Stunts']
+  const stuntRoles = ['Stunt Performer', 'Stunt Double', 'Stunt Coordinator', 'Stunt Driver', 'Specialty Stunt', 'Stunt Previs', 'Utility Stunts', 'Stunts - Utility', 'Special Skills']
   const stuntsCredits = allCredits.filter((c) => {
     const role = c.role as string
     return stuntRoles.some((sr) => role.startsWith(sr) || role.includes(sr))
@@ -46,7 +46,10 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
     const role = c.role as string
     return role === 'Location Management' || role === 'Location Manager' || role === 'Assistant Location Manager'
   })
-  const actorCredits = allCredits.filter((c) => c.role === 'Actor')
+  const actorCredits = allCredits.filter((c) => {
+    const role = c.role as string
+    return role === 'Actor' || role.startsWith('Actor') || role === 'Lead'
+  })
 
   return (
     <div className="w-full">
