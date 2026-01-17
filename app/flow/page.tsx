@@ -95,37 +95,40 @@ export default function FlowPage() {
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto">
-          {/* Header - Fiery Aesthetic */}
+          {/* Header with Hero Image - Side by Side */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-12 space-medium"
+            className="mb-16"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-red-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]">
-              Flow Arts
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light">
-              Fire and LED flow arts performer specializing in Poi and Dragonstaff. Available for
-              music festivals, private events, and corporate entertainment.
-            </p>
-          </motion.div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Text Content */}
+              <div className="text-center lg:text-left">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-red-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]">
+                  Flow Arts
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-300 leading-relaxed font-light">
+                  Fire and LED flow arts performer specializing in Poi and Dragonstaff. Available for
+                  music festivals, private events, and corporate entertainment.
+                </p>
+              </div>
 
-          {/* Main Hero Image */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="mb-12 max-w-5xl mx-auto"
-          >
-            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg shadow-[0_0_60px_rgba(255,69,0,0.3)]">
-              <img
-                src="/images/flowpage.JPG"
-                alt="Kaleb Bishop - Flow Arts Performance"
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
+              {/* Hero Image */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative w-full aspect-[4/3] overflow-hidden rounded-lg shadow-[0_0_60px_rgba(255,69,0,0.3)]"
+              >
+                <img
+                  src="/images/flowpage.JPG"
+                  alt="Kaleb Bishop - Flow Arts Performance"
+                  className="w-full h-full object-contain"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+              </motion.div>
             </div>
           </motion.div>
 
