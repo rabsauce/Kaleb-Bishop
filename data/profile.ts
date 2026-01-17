@@ -125,6 +125,7 @@ export const skills = [
 
 export const certifications = [
   'SAG-AFTRA Member',
+  'Teamsters Local 728 Member',
   'Condor/Forklift Certified',
   'Fire Safety & Control Training',
 ]
