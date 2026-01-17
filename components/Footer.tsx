@@ -108,7 +108,7 @@ export default function Footer() {
                   <img
                     src="/images/imdb.png"
                     alt="IMDb"
-                    className="w-6 h-6 object-contain"
+                    className="w-7 h-7 object-contain"
                   />
                 </a>
               )}

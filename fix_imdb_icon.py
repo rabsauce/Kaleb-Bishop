@@ -1,76 +1,69 @@
 #!/usr/bin/env python3
-"""Remove white corners from IMDb icon and optimize"""
+"""Process IMDb icon: remove white background but preserve white text"""
 
 from PIL import Image
 
-def remove_white_corners_and_optimize(input_path, output_path):
-    """Remove white pixels and optimize the icon"""
-    # Open the image
+def process_imdb_icon(input_path, output_path):
+    """Remove white background edges but preserve white text content"""
+    # Open the original JPG
     img = Image.open(input_path)
     
-    # Convert to RGBA if not already
-    if img.mode != 'RGBA':
-        img = img.convert('RGBA')
+    # Convert to RGB first
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
     
-    # Get pixel data
-    pixels = img.load()
-    width, height = img.size
+    # Convert to RGBA for transparency
+    img_rgba = img.convert('RGBA')
+    pixels = img_rgba.load()
+    width, height = img_rgba.size
     
-    # More aggressive white threshold - remove very light pixels
-    white_threshold = 220  # Lower threshold to catch more white/light pixels
+    # Strategy: Only remove white pixels that are clearly background
+    # Background white is usually at edges/corners and isolated
+    # White text is usually in the center and surrounded by colored (yellow) background
     
-    # Process each pixel - make white/light pixels transparent
+    # Process: Only make transparent if pixel is:
+    # 1. Very white (RGB > 245) AND
+    # 2. At the edges/corners (background area)
+    
+    edge_size = 150  # Pixels from edge to consider as background
+    corner_size = 200  # Corner region size
+    white_threshold = 245  # Very white threshold
+    
     for y in range(height):
         for x in range(width):
             r, g, b, a = pixels[x, y]
-            # If pixel is white/light, make it transparent
-            # Check if it's close to white (high values in all channels)
-            if r > white_threshold and g > white_threshold and b > white_threshold:
-                pixels[x, y] = (r, g, b, 0)  # Set alpha to 0
+            
+            # Check if pixel is very white
+            is_very_white = r > white_threshold and g > white_threshold and b > white_threshold
+            
+            if is_very_white:
+                # Check if pixel is at edge
+                is_edge = (x < edge_size or x > width - edge_size or 
+                          y < edge_size or y > height - edge_size)
+                
+                # Check if pixel is in corner region
+                is_corner = ((x < corner_size and y < corner_size) or
+                            (x > width - corner_size and y < corner_size) or
+                            (x < corner_size and y > height - corner_size) or
+                            (x > width - corner_size and y > height - corner_size))
+                
+                # Only make transparent if it's at edge/corner (background)
+                # Keep white pixels in center area (text)
+                if is_edge or is_corner:
+                    pixels[x, y] = (r, g, b, 0)
+                # Otherwise, keep the white pixel (it's part of the text)
     
-    # Additional pass: remove isolated white pixels in corners
-    # Check corner regions more aggressively
-    corner_size = min(50, width // 10, height // 10)  # Check corners
-    
-    # Top-left corner
-    for y in range(corner_size):
-        for x in range(corner_size):
-            r, g, b, a = pixels[x, y]
-            if r > 200 or g > 200 or b > 200:  # Very aggressive in corners
-                pixels[x, y] = (r, g, b, 0)
-    
-    # Top-right corner
-    for y in range(corner_size):
-        for x in range(width - corner_size, width):
-            r, g, b, a = pixels[x, y]
-            if r > 200 or g > 200 or b > 200:
-                pixels[x, y] = (r, g, b, 0)
-    
-    # Bottom-left corner
-    for y in range(height - corner_size, height):
-        for x in range(corner_size):
-            r, g, b, a = pixels[x, y]
-            if r > 200 or g > 200 or b > 200:
-                pixels[x, y] = (r, g, b, 0)
-    
-    # Bottom-right corner
-    for y in range(height - corner_size, height):
-        for x in range(width - corner_size, width):
-            r, g, b, a = pixels[x, y]
-            if r > 200 or g > 200 or b > 200:
-                pixels[x, y] = (r, g, b, 0)
-    
-    # Find the bounding box of non-transparent content
-    bbox = img.getbbox()
+    # Find bounding box of non-transparent content
+    bbox = img_rgba.getbbox()
     
     if bbox:
         # Crop to content
-        cropped = img.crop(bbox)
+        cropped = img_rgba.crop(bbox)
         
         # Save as PNG with transparency
         cropped.save(output_path, 'PNG', optimize=True)
         print(f"✓ Processed: {img.size} -> {cropped.size}")
-        print(f"✓ Removed white corners aggressively, saved to: {output_path}")
+        print(f"✓ Preserved white text, removed white background edges, saved to: {output_path}")
         return True
     else:
         print("✗ Could not find content")
@@ -81,4 +74,4 @@ if __name__ == '__main__':
     input_path = 'public/images/imdb.jpg'
     output_path = 'public/images/imdb.png'
     
-    remove_white_corners_and_optimize(input_path, output_path)
+    process_imdb_icon(input_path, output_path)

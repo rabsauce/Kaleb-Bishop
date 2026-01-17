@@ -108,7 +108,7 @@ export default function Navbar() {
                     <img
                       src="/images/imdb.png"
                       alt="IMDb"
-                      className="w-5 h-5 object-contain"
+                      className="w-6 h-6 object-contain"
                     />
                   </a>
                 )}
