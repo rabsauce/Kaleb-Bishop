@@ -119,12 +119,12 @@ export default function FlowPage() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative w-full aspect-[4/3] overflow-hidden rounded-lg shadow-[0_0_60px_rgba(255,69,0,0.3)]"
+                className="relative w-full overflow-hidden rounded-lg shadow-[0_0_60px_rgba(255,69,0,0.3)]"
               >
                 <img
                   src="/images/flowpage.JPG"
                   alt="Kaleb Bishop - Flow Arts Performance"
-                  className="w-full h-full object-contain"
+                  className="w-full h-auto object-cover"
                   loading="eager"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
