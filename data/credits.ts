@@ -4,7 +4,7 @@
 export interface Credit {
   year: number
   project: string
-  role: 'Stunt Performer' | 'Stunt Double' | 'Stunt Coordinator' | 'Stunt Driver' | 'Specialty Stunt' | 'Stunt Previs' | 'Utility Stunts' | 'Actor' | 'Location Management' | 'Location Manager' | 'Assistant Location Manager'
+  role: string // Allow flexible role strings like "Stunt Double: Tony Demil"
   director?: string
   coordinator?: string
   notes?: string

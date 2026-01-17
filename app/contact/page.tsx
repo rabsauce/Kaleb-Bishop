@@ -251,7 +251,7 @@ export default function ContactPage() {
 
                 {submitStatus === 'success' && (
                   <div className="bg-green-900/30 border border-green-500 text-green-300 px-4 py-3 rounded-lg">
-                    Thank you! Your message has been sent. I'll get back to you soon.
+                    Thank you! Your message has been sent. I&apos;ll get back to you soon.
                   </div>
                 )}
 
