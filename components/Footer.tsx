@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Instagram, ExternalLink, Twitter } from 'lucide-react'
+import { Instagram, Twitter } from 'lucide-react'
 import { profile } from '@/data/profile'
 
 export default function Footer() {
@@ -102,10 +102,15 @@ export default function Footer() {
                   href={profile.contact.social.imdb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-accent-blue transition-colors"
+                  className="text-gray-400 hover:opacity-80 transition-opacity inline-flex items-center justify-center w-6 h-6 overflow-hidden"
                   aria-label="IMDb"
                 >
-                  <ExternalLink className="w-6 h-6" />
+                  <img
+                    src="/images/imdb.jpg"
+                    alt="IMDb"
+                    className="w-[22px] h-[22px] object-cover object-center scale-110"
+                    style={{ filter: 'contrast(1.2)' }}
+                  />
                 </a>
               )}
               {profile.contact.social.twitter && (
