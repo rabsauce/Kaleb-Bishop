@@ -109,8 +109,7 @@ export default function FlowPage() {
                   Flow Arts
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-300 leading-relaxed font-light">
-                  Fire and LED flow arts performer specializing in Poi and Dragonstaff. Available for
-                  music festivals, private events, and corporate entertainment.
+                  In addition to his on-screen stunt work, Kaleb is a seasoned professional flow artist specializing in fire and LED performances. He applies the same high-level athleticism, captivating showmanship, and uncompromising safety standards to live performances, making him a dynamic addition to music festivals, private events, corporate entertainment, and other live engagements.
                 </p>
               </div>
 
