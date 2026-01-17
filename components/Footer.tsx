@@ -106,10 +106,9 @@ export default function Footer() {
                   aria-label="IMDb"
                 >
                   <img
-                    src="/images/imdb.jpg"
+                    src="/images/imdb.png"
                     alt="IMDb"
-                    className="w-[22px] h-[22px] object-cover object-center scale-110"
-                    style={{ filter: 'contrast(1.2)' }}
+                    className="w-[22px] h-[22px] object-contain"
                   />
                 </a>
               )}
