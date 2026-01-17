@@ -108,6 +108,7 @@ export const credits: Credit[] = [
     project: 'Under the Infinite',
     role: 'Stunts - Utility',
     coordinator: 'Ryan Monolopolus',
+    notes: 'RiTE Media',
     type: 'Feature Film',
   },
   {
@@ -115,6 +116,7 @@ export const credits: Credit[] = [
     project: 'Stargirl Season 2',
     role: 'Special Skills - Football',
     coordinator: 'Bobby Jordan',
+    notes: 'TV Series, 1 episode',
     type: 'TV Series',
   },
   {
@@ -122,6 +124,7 @@ export const credits: Credit[] = [
     project: 'Gentlemen and Violence',
     role: 'Stunt Performer',
     coordinator: 'Matt Philiben',
+    notes: 'Short film stunt work',
     type: 'Feature Film',
   },
   {
@@ -129,6 +132,7 @@ export const credits: Credit[] = [
     project: 'Aflac: Good/Bad Idea',
     role: 'Stunt Performer',
     coordinator: 'James Ortiz',
+    notes: 'Commercial',
     type: 'Commercial',
   },
   {
@@ -136,6 +140,7 @@ export const credits: Credit[] = [
     project: 'Meptik',
     role: 'Stunts - Utility',
     coordinator: 'John Ross',
+    notes: 'Short film stunt work',
     type: 'Commercial',
   },
   {
@@ -143,6 +148,7 @@ export const credits: Credit[] = [
     project: "Escort'e - A Brave Trio",
     role: 'Stunt Performer',
     coordinator: 'David Samonte',
+    notes: 'Short film stunt work',
     type: 'Short',
   },
   {
@@ -157,6 +163,7 @@ export const credits: Credit[] = [
     project: 'Two Cowboys and a Train',
     role: 'Lead',
     coordinator: 'Whistle Twice Pictures',
+    notes: 'Short film',
     type: 'Short',
   },
   {
@@ -164,6 +171,7 @@ export const credits: Credit[] = [
     project: 'The Ghosts of Rock',
     role: 'Actor (Live)',
     coordinator: 'Sherrie Peterson',
+    notes: 'Theatre production',
     type: 'Feature Film',
   },
   {
