@@ -174,11 +174,11 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b border-gray-800">
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Year</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Project</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Role</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Coordinator</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Notes</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Year</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Project</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Role</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Coordinator</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -191,13 +191,13 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
                         exit={{ opacity: 0 }}
                         className="border-b border-gray-900 hover:bg-gray-900/50 transition-colors"
                       >
-                        <td className="py-4 px-4 text-accent-blue font-bold">{credit.year}</td>
-                        <td className="py-4 px-4 text-white font-semibold">{credit.project}</td>
-                        <td className="py-4 px-4 text-gray-300">{credit.role}</td>
-                        <td className="py-4 px-4 text-gray-400 text-sm">
+                        <td className="py-2.5 px-4 text-accent-blue font-bold">{credit.year}</td>
+                        <td className="py-2.5 px-4 text-white font-semibold">{credit.project}</td>
+                        <td className="py-2.5 px-4 text-gray-300">{credit.role}</td>
+                        <td className="py-2.5 px-4 text-gray-400 text-sm">
                           {credit.coordinator || '-'}
                         </td>
-                        <td className="py-4 px-4 text-gray-300 text-sm">{credit.notes || '-'}</td>
+                        <td className="py-2.5 px-4 text-gray-300 text-sm">{credit.notes || '-'}</td>
                       </motion.tr>
                     ))}
                   </AnimatePresence>
@@ -253,11 +253,11 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b border-gray-800">
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Year</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Project</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Role</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Location Manager</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Notes</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Year</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Project</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Role</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Location Manager</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -270,13 +270,13 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
                         exit={{ opacity: 0 }}
                         className="border-b border-gray-900 hover:bg-gray-900/50 transition-colors"
                       >
-                        <td className="py-4 px-4 text-accent-blue font-bold">{credit.year}</td>
-                        <td className="py-4 px-4 text-white font-semibold">{credit.project}</td>
-                        <td className="py-4 px-4 text-gray-300">{credit.role}</td>
-                        <td className="py-4 px-4 text-gray-400 text-sm">
+                        <td className="py-2.5 px-4 text-accent-blue font-bold">{credit.year}</td>
+                        <td className="py-2.5 px-4 text-white font-semibold">{credit.project}</td>
+                        <td className="py-2.5 px-4 text-gray-300">{credit.role}</td>
+                        <td className="py-2.5 px-4 text-gray-400 text-sm">
                           {credit.coordinator || '-'}
                         </td>
-                        <td className="py-4 px-4 text-gray-300 text-sm">{credit.notes || '-'}</td>
+                        <td className="py-2.5 px-4 text-gray-300 text-sm">{credit.notes || '-'}</td>
                       </motion.tr>
                     ))}
                   </AnimatePresence>
@@ -332,11 +332,11 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b border-gray-800">
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Year</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Project</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Role</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Coordinator</th>
-                    <th className="text-left py-4 px-4 text-accent-blue font-semibold">Notes</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Year</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Project</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Role</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Coordinator</th>
+                    <th className="text-left py-3 px-4 text-accent-blue font-semibold">Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -349,13 +349,13 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
                         exit={{ opacity: 0 }}
                         className="border-b border-gray-900 hover:bg-gray-900/50 transition-colors"
                       >
-                        <td className="py-4 px-4 text-accent-blue font-bold">{credit.year}</td>
-                        <td className="py-4 px-4 text-white font-semibold">{credit.project}</td>
-                        <td className="py-4 px-4 text-gray-300">{credit.role}</td>
-                        <td className="py-4 px-4 text-gray-400 text-sm">
+                        <td className="py-2.5 px-4 text-accent-blue font-bold">{credit.year}</td>
+                        <td className="py-2.5 px-4 text-white font-semibold">{credit.project}</td>
+                        <td className="py-2.5 px-4 text-gray-300">{credit.role}</td>
+                        <td className="py-2.5 px-4 text-gray-400 text-sm">
                           {credit.coordinator || '-'}
                         </td>
-                        <td className="py-4 px-4 text-gray-300 text-sm">{credit.notes || '-'}</td>
+                        <td className="py-2.5 px-4 text-gray-300 text-sm">{credit.notes || '-'}</td>
                       </motion.tr>
                     ))}
                   </AnimatePresence>
