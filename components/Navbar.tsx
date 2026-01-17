@@ -106,7 +106,7 @@ export default function Navbar() {
                     aria-label="IMDb"
                   >
                     <img
-                      src="/images/imdb.png"
+                      src="/images/imdb2.png"
                       alt="IMDb"
                       className="h-5 object-contain"
                       style={{ width: 'auto' }}

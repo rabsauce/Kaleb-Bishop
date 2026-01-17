@@ -106,7 +106,7 @@ export default function Footer() {
                   aria-label="IMDb"
                 >
                   <img
-                    src="/images/imdb.png"
+                    src="/images/imdb2.png"
                     alt="IMDb"
                     className="h-6 object-contain"
                     style={{ width: 'auto' }}
