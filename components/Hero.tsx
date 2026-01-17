@@ -34,7 +34,7 @@ export default function Hero() {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 md:object-cover object-contain md:object-cover"
         >
           <source src="/opener.mp4" type="video/mp4" />
         </video>
