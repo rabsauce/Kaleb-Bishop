@@ -206,7 +206,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
             </div>
 
             {/* Mobile Card View */}
-            <div className="lg:hidden space-y-4">
+            <div className="lg:hidden space-y-3">
               <AnimatePresence>
                 {stuntsCredits.map((credit, index) => (
                   <motion.div
@@ -285,7 +285,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
             </div>
 
             {/* Mobile Card View */}
-            <div className="lg:hidden space-y-4">
+            <div className="lg:hidden space-y-3">
               <AnimatePresence>
                 {locationCredits.map((credit, index) => (
                   <motion.div
@@ -364,7 +364,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
             </div>
 
             {/* Mobile Card View */}
-            <div className="lg:hidden space-y-4">
+            <div className="lg:hidden space-y-3">
               <AnimatePresence>
                 {actorCredits.map((credit, index) => (
                   <motion.div
