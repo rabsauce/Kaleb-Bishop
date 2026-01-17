@@ -52,6 +52,23 @@ export default function ContactPage() {
           </p>
         </div>
 
+        {/* Professional Photo */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 max-w-2xl mx-auto"
+        >
+          <div className="relative w-full overflow-hidden rounded-lg shadow-[0_0_40px_rgba(0,240,255,0.2)]">
+            <img
+              src="/images/suit.JPEG"
+              alt="Kaleb Bishop - Professional Headshot"
+              className="w-full h-auto object-cover"
+              loading="eager"
+            />
+          </div>
+        </motion.div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-6">
