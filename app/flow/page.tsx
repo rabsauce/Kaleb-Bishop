@@ -100,7 +100,7 @@ export default function FlowPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 space-medium"
+            className="text-center mb-12 space-medium"
           >
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-red-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]">
               Flow Arts
@@ -109,6 +109,24 @@ export default function FlowPage() {
               Fire and LED flow arts performer specializing in Poi and Dragonstaff. Available for
               music festivals, private events, and corporate entertainment.
             </p>
+          </motion.div>
+
+          {/* Main Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mb-12 max-w-5xl mx-auto"
+          >
+            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg shadow-[0_0_60px_rgba(255,69,0,0.3)]">
+              <img
+                src="/images/flowpage.JPG"
+                alt="Kaleb Bishop - Flow Arts Performance"
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
+            </div>
           </motion.div>
 
           {/* Flow Reel */}
