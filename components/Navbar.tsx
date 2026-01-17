@@ -102,7 +102,7 @@ export default function Navbar() {
                     href={profile.contact.social.imdb}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-2 text-sm lg:text-base font-medium text-gray-300 hover:text-accent-blue transition-colors"
+                    className="px-3 py-2 text-sm lg:text-base font-display font-bold text-white hover:text-accent-blue transition-colors"
                     aria-label="IMDb"
                   >
                     IMDb
