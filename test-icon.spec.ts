@@ -14,9 +14,9 @@ test('Verify IMDb icon in Navbar - no white edges', async ({ page }) => {
   const navbarImdbImage = navbarImdbLink.locator('img[alt="IMDb"]');
   await expect(navbarImdbImage).toBeVisible();
   
-  // Verify the image source is the processed PNG (not JPG)
+  // Verify the image source is the IMDb button PNG (not JPG)
   const imageSrc = await navbarImdbImage.getAttribute('src');
-  expect(imageSrc).toMatch(/imdb\d?\.png/);
+  expect(imageSrc).toMatch(/imdb.*\.png/);
   expect(imageSrc).not.toContain('.jpg');
   
   // Check that background is transparent (no white background)
@@ -68,9 +68,9 @@ test('Verify IMDb icon in Footer - no white edges', async ({ page }) => {
   const footerImdbImage = footerImdbLink.locator('img[alt="IMDb"]');
   await expect(footerImdbImage).toBeVisible();
   
-  // Verify the image source is the processed PNG (not JPG)
+  // Verify the image source is the IMDb button PNG (not JPG)
   const imageSrc = await footerImdbImage.getAttribute('src');
-  expect(imageSrc).toMatch(/imdb\d?\.png/);
+  expect(imageSrc).toMatch(/imdb.*\.png/);
   expect(imageSrc).not.toContain('.jpg');
   
   // Check that background is transparent (no white background)
@@ -111,11 +111,11 @@ test('Compare Navbar and Footer IMDb icons', async ({ page }) => {
   console.log('Navbar IMDb icon:', navbarVisible ? 'Image - ' + navbarSrc : 'Not found');
   console.log('Footer IMDb icon:', footerVisible ? 'Image - ' + footerSrc : 'Not found');
   
-  // Both should be visible and use processed PNG (imdb or imdb2)
+  // Both should be visible and use IMDb button PNG
   expect(navbarVisible).toBeTruthy();
   expect(footerVisible).toBeTruthy();
-  expect(navbarSrc).toMatch(/imdb\d?\.png/);
-  expect(footerSrc).toMatch(/imdb\d?\.png/);
+  expect(navbarSrc).toMatch(/imdb.*\.png/);
+  expect(footerSrc).toMatch(/imdb.*\.png/);
   
   // Verify no white edges - check that both use object-contain (no cropping)
   const navbarObjectFit = await page.locator('nav a[aria-label="IMDb"] img').evaluate((el) => {
