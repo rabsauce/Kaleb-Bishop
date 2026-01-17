@@ -104,7 +104,7 @@ export default function FlowPage() {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               {/* Text Content */}
-              <div className="text-center lg:text-left">
+              <div className="text-center">
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-red-500 drop-shadow-[0_0_30px_rgba(239,68,68,0.8)]">
                   Flow Arts
                 </h1>
