@@ -57,7 +57,7 @@ test('Verify IMDb text in Navbar uses font-display, bold, and white', async ({ p
   expect(href).toBeTruthy();
 });
 
-test('Verify IMDb icon in Footer - no white edges', async ({ page }) => {
+test('Verify IMDb text in Footer matches navbar styling', async ({ page }) => {
   await page.goto('http://localhost:3000');
   
   // Wait for page to load
@@ -67,29 +67,49 @@ test('Verify IMDb icon in Footer - no white edges', async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await page.waitForTimeout(500);
   
-  // Check if IMDb icon exists in footer
+  // Check if IMDb link exists in footer
   const footerImdbLink = page.locator('footer a[aria-label="IMDb"]');
   await expect(footerImdbLink).toBeVisible();
   
-  // Check if it's an image (should match navbar)
-  const footerImdbImage = footerImdbLink.locator('img[alt="IMDb"]');
-  await expect(footerImdbImage).toBeVisible();
+  // Verify it's text, not an image
+  const imdbText = footerImdbLink.locator('text=IMDb');
+  await expect(imdbText).toBeVisible();
   
-  // Verify the image source is the IMDb button PNG (not JPG)
-  const imageSrc = await footerImdbImage.getAttribute('src');
-  expect(imageSrc).toMatch(/imdb.*\.png/);
-  expect(imageSrc).not.toContain('.jpg');
+  // Check text content
+  const textContent = await footerImdbLink.textContent();
+  expect(textContent).toBe('IMDb');
   
-  // Check that background is transparent (no white background)
-  const bgColor = await footerImdbImage.evaluate((el) => {
-    return window.getComputedStyle(el).backgroundColor;
+  // Get Footer IMDb styles
+  const footerStyles = await footerImdbLink.evaluate((el) => {
+    const styles = window.getComputedStyle(el);
+    return {
+      fontSize: styles.fontSize,
+      fontWeight: styles.fontWeight,
+      color: styles.color,
+      fontFamily: styles.fontFamily,
+    };
   });
-  console.log('Footer icon background color:', bgColor);
-  expect(bgColor).toMatch(/rgba?\(0,\s*0,\s*0,\s*0\)|transparent/);
   
-  // Check image dimensions
-  const imageBox = await footerImdbImage.boundingBox();
-  console.log('Footer IMDb icon dimensions:', imageBox);
+  // Get Navbar IMDb styles for comparison
+  const navbarImdbLink = page.locator('nav a[aria-label="IMDb"]');
+  const navbarStyles = await navbarImdbLink.evaluate((el) => {
+    const styles = window.getComputedStyle(el);
+    return {
+      fontSize: styles.fontSize,
+      fontWeight: styles.fontWeight,
+      color: styles.color,
+      fontFamily: styles.fontFamily,
+    };
+  });
+  
+  console.log('Footer IMDb styles:', footerStyles);
+  console.log('Navbar IMDb styles:', navbarStyles);
+  
+  // Verify it matches navbar styling
+  expect(footerStyles.fontFamily).toBe(navbarStyles.fontFamily);
+  expect(footerStyles.fontWeight).toBe(navbarStyles.fontWeight);
+  expect(footerStyles.color).toBe(navbarStyles.color);
+  expect(footerStyles.fontSize).toBe(navbarStyles.fontSize);
   
   // Verify the link href
   const href = await footerImdbLink.getAttribute('href');
