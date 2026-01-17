@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   description: 'SAG-AFTRA certified professional stunt performer and actor. Known for The Six Triple Eight (2024), True Lies (2023), and Souls of Silence (2025). Specializing in stunt performance, stunt doubling, and location management.',
   keywords: ['stunt performer', 'stunt double', 'Hollywood stunts', 'SAG-AFTRA', 'film stunts', 'TV stunts', 'location management', 'Kaleb Bishop'],
   authors: [{ name: 'Kaleb Bishop' }],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
   openGraph: {
     title: 'Kaleb Bishop | Professional Stunt Performer & Actor',
     description: 'SAG-AFTRA certified professional stunt performer and actor. Featured in The Six Triple Eight, True Lies, and Souls of Silence.',
