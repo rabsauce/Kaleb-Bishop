@@ -1,32 +1,44 @@
 #!/usr/bin/env python3
-"""Create a custom IMDb button that looks like the official black and white logo"""
+"""Create a custom IMDb button matching the official logo design"""
 
 from PIL import Image, ImageDraw, ImageFont
 import os
 
-def create_imdb_button(output_path, size_px=100):
-    """Create a custom IMDb button with black background and white text"""
-    # Create image with transparent background
+def create_imdb_button(output_path, size_px=200):
+    """Create IMDb button: black rounded rectangle with white 'IMDb' text, transparent background"""
+    # Create image with fully transparent background
     img = Image.new('RGBA', (size_px, size_px), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     
-    # Calculate dimensions
+    # Calculate dimensions for the black rounded rectangle
     width, height = size_px, size_px
-    padding = int(size_px * 0.15)  # 15% padding
-    corner_radius = int(size_px * 0.25)  # 25% corner radius for rounded button
     
-    # Draw rounded rectangle (black background)
-    # The IMDb logo is typically black with white text
+    # The IMDb logo is a horizontal black rounded rectangle
+    # Calculate padding to center it
+    # Make it wider than tall (typical IMDb logo proportions)
+    button_height = int(size_px * 0.5)  # 50% of canvas height
+    button_width = int(size_px * 0.7)   # 70% of canvas width (wider, horizontal)
+    
+    # Center the button
+    x1 = (width - button_width) // 2
+    y1 = (height - button_height) // 2
+    x2 = x1 + button_width
+    y2 = y1 + button_height
+    
+    # Corner radius (rounded corners)
+    corner_radius = int(button_height * 0.2)  # 20% of button height
+    
+    # Draw black rounded rectangle (the button)
     draw.rounded_rectangle(
-        [(padding, padding), (width - padding, height - padding)],
+        [(x1, y1), (x2, y2)],
         radius=corner_radius,
         fill=(0, 0, 0, 255)  # Black background
     )
     
-    # Try to use a bold font, fallback to default if not available
+    # Add white "IMDb" text
     try:
         # Try to find a bold system font
-        font_size = int(size_px * 0.35)  # 35% of size for text
+        font_size = int(button_height * 0.5)  # 50% of button height for text
         font_paths = [
             '/System/Library/Fonts/Supplemental/Arial Bold.ttf',
             '/System/Library/Fonts/Helvetica.ttc',
@@ -47,15 +59,15 @@ def create_imdb_button(output_path, size_px=100):
     except:
         font = ImageFont.load_default()
     
-    # Draw "IMDb" text in white
+    # Draw "IMDb" text in white (I, M, D uppercase, b lowercase)
     text = "IMDb"
     text_bbox = draw.textbbox((0, 0), text, font=font)
     text_width = text_bbox[2] - text_bbox[0]
     text_height = text_bbox[3] - text_bbox[1]
     
-    # Center the text
-    text_x = (width - text_width) // 2
-    text_y = (height - text_height) // 2 - int(text_height * 0.1)  # Slight vertical adjustment
+    # Center the text in the button
+    text_x = x1 + (button_width - text_width) // 2
+    text_y = y1 + (button_height - text_height) // 2 - int(text_height * 0.1)
     
     # Draw white text
     draw.text(
@@ -65,16 +77,15 @@ def create_imdb_button(output_path, size_px=100):
         font=font
     )
     
-    # Save the button
+    # Save with transparent background (no white)
     img.save(output_path, 'PNG', optimize=True)
     print(f"✓ Created IMDb button: {size_px}x{size_px}, saved to {output_path}")
+    print(f"  Button size: {button_width}x{button_height}, corner radius: {corner_radius}")
+    print(f"  Background: Transparent (no white)")
     return True
 
 if __name__ == '__main__':
-    # Create a high-resolution version first (for quality)
-    high_res_path = 'public/images/imdb_button_large.png'
-    create_imdb_button(high_res_path, size_px=200)
-    
-    # The actual size will be controlled by CSS (h-5 = 20px)
-    # But we create a good quality base image
-    print(f"✓ IMDb button created successfully")
+    # Create high-resolution version
+    output_path = 'public/images/imdb_button_large.png'
+    create_imdb_button(output_path, size_px=200)
+    print(f"✓ IMDb button created with transparent background")
