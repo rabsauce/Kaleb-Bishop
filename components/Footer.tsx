@@ -102,15 +102,10 @@ export default function Footer() {
                   href={profile.contact.social.imdb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-accent-blue transition-colors inline-flex items-center justify-center"
+                  className="text-sm lg:text-base font-display font-bold text-white hover:text-accent-blue transition-colors"
                   aria-label="IMDb"
                 >
-                  <img
-                    src="/images/imdb_button_large.png"
-                    alt="IMDb"
-                    className="h-6 object-contain"
-                    style={{ width: 'auto' }}
-                  />
+                  IMDb
                 </a>
               )}
               {profile.contact.social.twitter && (
