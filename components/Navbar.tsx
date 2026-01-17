@@ -102,13 +102,13 @@ export default function Navbar() {
                     href={profile.contact.social.imdb}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:opacity-80 transition-opacity inline-flex items-center justify-center w-5 h-5 overflow-hidden"
+                    className="text-gray-300 hover:text-accent-blue transition-colors inline-flex items-center justify-center"
                     aria-label="IMDb"
                   >
                     <img
                       src="/images/imdb.png"
                       alt="IMDb"
-                      className="w-[22px] h-[22px] object-contain"
+                      className="w-5 h-5 object-contain"
                     />
                   </a>
                 )}

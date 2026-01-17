@@ -102,13 +102,13 @@ export default function Footer() {
                   href={profile.contact.social.imdb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:opacity-80 transition-opacity inline-flex items-center justify-center w-6 h-6 overflow-hidden"
+                  className="text-gray-400 hover:text-accent-blue transition-colors inline-flex items-center justify-center"
                   aria-label="IMDb"
                 >
                   <img
                     src="/images/imdb.png"
                     alt="IMDb"
-                    className="w-[22px] h-[22px] object-contain"
+                    className="w-6 h-6 object-contain"
                   />
                 </a>
               )}
