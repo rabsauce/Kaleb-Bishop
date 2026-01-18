@@ -4,7 +4,7 @@
 export const profile = {
   name: 'Kaleb Bishop',
   tagline: 'Professional Stunt Performer & Actor | SAG-AFTRA',
-  bio: 'Professional stunt performer, actor, and location manager with experience in major Hollywood productions. Known for work on The Six Triple Eight (2024), True Lies (2023), and Souls of Silence (2025). Specializing in stunt performance, stunt doubling, stunt previs, and utility stunts across feature films, television series, and music videos. Committed to safety, precision, and bringing authentic action to every project.',
+  bio: 'Professional stunt performer, actor, and location manager with experience in major Hollywood productions. Known for work on The Waterfront (2025), True Lies (2023), and Souls of Silence (2025). Specializing in stunt performance, stunt doubling, stunt previs, and utility stunts across feature films, television series, and music videos. Committed to safety, precision, and bringing authentic action to every project.',
   stats: {
     yearsActive: 14, // Since 2012
     credits: 11, // From IMDb credits
