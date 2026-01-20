@@ -48,11 +48,15 @@ export async function POST(request: NextRequest) {
 
     if (existingGallery) {
       // Add photo to existing gallery
+      // Generate a unique key for the new photo
+      const photoKey = `photo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      
       await writeClient
         .patch(existingGallery._id)
         .setIfMissing({ photos: [] })
         .append('photos', [
           {
+            _key: photoKey,
             _type: 'image',
             asset: {
               _type: 'reference',
@@ -64,11 +68,15 @@ export async function POST(request: NextRequest) {
         .commit()
     } else {
       // Create new gallery document
+      // Generate a unique key for the new photo
+      const photoKey = `photo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      
       await writeClient.create({
         _type: 'gallery',
         title: 'Photo Gallery',
         photos: [
           {
+            _key: photoKey,
             _type: 'image',
             asset: {
               _type: 'reference',
