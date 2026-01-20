@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@sanity/client'
 
-// Increase body size limit for file uploads
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
-  },
-}
-
 // Create a write-enabled client for uploads
 const writeClient = createClient({
   projectId: '1rztdp97',
