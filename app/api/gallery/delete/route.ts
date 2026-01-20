@@ -30,10 +30,34 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    // Remove the photo from the gallery
+    // Fetch current gallery to find the photo index
+    const gallery = await writeClient.fetch(`*[_id == $galleryId][0]`, { galleryId })
+    
+    if (!gallery || !gallery.photos) {
+      return NextResponse.json(
+        { error: 'Gallery not found' },
+        { status: 404 }
+      )
+    }
+
+    // Find photo index by _key, or fallback to asset ref if no _key
+    const photoIndex = gallery.photos.findIndex((p: any) => 
+      p._key === photoKey || (!p._key && p.asset?._ref === photoKey)
+    )
+
+    if (photoIndex === -1) {
+      return NextResponse.json(
+        { error: 'Photo not found' },
+        { status: 404 }
+      )
+    }
+
+    // Remove the photo by index
+    const updatedPhotos = gallery.photos.filter((_: any, i: number) => i !== photoIndex)
+    
     await writeClient
       .patch(galleryId)
-      .unset([`photos[_key=="${photoKey}"]`])
+      .set({ photos: updatedPhotos })
       .commit()
 
     // Revalidate the gallery page

@@ -176,10 +176,10 @@ export default function UploadPage() {
     if (!deleteConfirm || !gallery?._id) return
 
     const photoKeyToDelete = deleteConfirm
-    setDeleting(deleteConfirm)
+    setDeleting(photoKeyToDelete)
     setDeleteConfirm(null)
     try {
-      const response = await fetch(`/api/gallery/delete?key=${photoKeyToDelete}&galleryId=${gallery._id}`, {
+      const response = await fetch(`/api/gallery/delete?key=${encodeURIComponent(photoKeyToDelete)}&galleryId=${gallery._id}`, {
         method: 'DELETE',
       })
 
@@ -200,24 +200,41 @@ export default function UploadPage() {
     }
   }
 
-  const handleDragStart = (index: number) => {
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', index.toString())
     setDraggedIndex(index)
   }
 
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault()
-    setDragOverIndex(index)
+    e.stopPropagation()
+    if (draggedIndex !== null && draggedIndex !== index) {
+      setDragOverIndex(index)
+    }
   }
 
-  const handleDragLeave = () => {
-    setDragOverIndex(null)
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    // Only clear if we're leaving the element (not entering a child)
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX
+    const y = e.clientY
+    if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+      setDragOverIndex(null)
+    }
   }
 
   const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
     e.preventDefault()
+    e.stopPropagation()
     setDragOverIndex(null)
 
-    if (draggedIndex === null || !gallery?._id || !gallery.photos) return
+    if (draggedIndex === null || !gallery?._id || !gallery.photos) {
+      setDraggedIndex(null)
+      return
+    }
     if (draggedIndex === dropIndex) {
       setDraggedIndex(null)
       return
@@ -377,13 +394,18 @@ export default function UploadPage() {
                   <div
                     key={photo._key}
                     draggable
-                    onDragStart={() => handleDragStart(index)}
+                    onDragStart={(e) => handleDragStart(e, index)}
                     onDragOver={(e) => handleDragOver(e, index)}
-                    onDragLeave={handleDragLeave}
-                    onDrop={(e) => handleDrop(e, index)}
-                    className={`relative group bg-gray-900 rounded-lg overflow-hidden cursor-move transition-all ${
+                    onDragLeave={(e) => handleDragLeave(e)}
+                    onDrop={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleDrop(e, index)
+                    }}
+                    className={`relative group bg-gray-900 rounded-lg overflow-hidden cursor-move transition-all select-none ${
                       isDragging ? 'opacity-50 scale-95' : ''
                     } ${isDragOver ? 'ring-2 ring-accent-blue scale-105' : ''}`}
+                    style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
                   >
                     {/* Delete button - top right */}
                     <button
@@ -404,7 +426,7 @@ export default function UploadPage() {
                       <GripVertical className="w-4 h-4 text-gray-300" />
                     </div>
 
-                    <div className="relative w-full aspect-square">
+                    <div className="relative w-full aspect-square pointer-events-none">
                       <Image
                         src={imageUrl}
                         alt={photo.alt || 'Gallery image'}
