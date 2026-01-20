@@ -102,20 +102,21 @@ export default async function GalleryPage() {
 
             // Construct image object for urlFor (needs { asset: { _ref, _type } } structure)
             const imageSource = { asset: photo.asset }
-            const imageUrl = urlFor(imageSource).width(800).height(600).url()
+            // Use larger width but maintain aspect ratio - fit to max 1200px width
+            const imageUrl = urlFor(imageSource).width(1200).fit('max').url()
 
             return (
               <div
                 key={`${photo.asset?._ref || index}`}
                 className="break-inside-avoid mb-4 group relative overflow-hidden rounded-lg"
               >
-                <div className="relative w-full h-auto">
+                <div className="relative w-full">
                   <Image
                     src={imageUrl}
                     alt={altText}
-                    width={800}
-                    height={600}
-                    className="w-full h-auto rounded-lg object-cover transition-transform duration-300 group-hover:scale-105"
+                    width={1200}
+                    height={1200}
+                    className="w-full h-auto rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index < 6} // Priority for first 6 images
                     loading={index < 6 ? 'eager' : 'lazy'}

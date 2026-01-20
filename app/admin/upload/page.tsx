@@ -1,13 +1,35 @@
 'use client'
 
-import { useState } from 'react'
-import { Upload, X, Check } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Upload, X, Check, Trash2, ArrowUp, ArrowDown } from 'lucide-react'
+import Image from 'next/image'
+import { urlFor } from '@/lib/sanity.image'
+
+interface GalleryPhoto {
+  _key: string
+  alt: string
+  caption?: string
+  asset: {
+    _ref: string
+    _type: 'reference'
+  }
+}
+
+interface GalleryData {
+  _id: string
+  title?: string
+  photos?: GalleryPhoto[]
+}
 
 export default function UploadPage() {
   const [files, setFiles] = useState<File[]>([])
   const [uploading, setUploading] = useState(false)
   const [uploaded, setUploaded] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [gallery, setGallery] = useState<GalleryData | null>(null)
+  const [loadingGallery, setLoadingGallery] = useState(true)
+  const [deleting, setDeleting] = useState<string | null>(null)
+  const [reordering, setReordering] = useState(false)
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
@@ -108,6 +130,106 @@ export default function UploadPage() {
       setError(errorMessage)
     } finally {
       setUploading(false)
+    }
+  }
+
+  // Fetch existing gallery photos
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await fetch('/api/gallery')
+        if (response.ok) {
+          const data = await response.json()
+          setGallery(data)
+        }
+      } catch (err) {
+        console.error('Error fetching gallery:', err)
+      } finally {
+        setLoadingGallery(false)
+      }
+    }
+    fetchGallery()
+  }, [])
+
+  // Refresh gallery after upload
+  useEffect(() => {
+    if (uploaded.length > 0) {
+      const fetchGallery = async () => {
+        const response = await fetch('/api/gallery')
+        if (response.ok) {
+          const data = await response.json()
+          setGallery(data)
+        }
+      }
+      fetchGallery()
+    }
+  }, [uploaded])
+
+  const handleDelete = async (photoKey: string) => {
+    if (!gallery?._id) return
+    
+    if (!confirm('Are you sure you want to delete this photo?')) {
+      return
+    }
+
+    setDeleting(photoKey)
+    try {
+      const response = await fetch(`/api/gallery/delete?key=${photoKey}&galleryId=${gallery._id}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to delete photo')
+      }
+
+      // Refresh gallery
+      const galleryResponse = await fetch('/api/gallery')
+      if (galleryResponse.ok) {
+        const data = await galleryResponse.json()
+        setGallery(data)
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete photo')
+    } finally {
+      setDeleting(null)
+    }
+  }
+
+  const handleMove = async (photoKey: string, direction: 'up' | 'down') => {
+    if (!gallery?._id || !gallery.photos) return
+
+    const currentIndex = gallery.photos.findIndex((p) => p._key === photoKey)
+    if (currentIndex === -1) return
+
+    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
+    if (newIndex < 0 || newIndex >= gallery.photos.length) return
+
+    setReordering(true)
+    try {
+      // Create new order
+      const newPhotos = [...gallery.photos]
+      const [moved] = newPhotos.splice(currentIndex, 1)
+      newPhotos.splice(newIndex, 0, moved)
+
+      const response = await fetch('/api/gallery/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          galleryId: gallery._id,
+          photoKeys: newPhotos.map((p) => p._key),
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to reorder photos')
+      }
+
+      // Update local state
+      setGallery({ ...gallery, photos: newPhotos })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to reorder photos')
+    } finally {
+      setReordering(false)
     }
   }
 
@@ -212,6 +334,78 @@ export default function UploadPage() {
             </div>
           </div>
         )}
+
+        {/* Existing Gallery Photos */}
+        <div className="mt-12">
+          <h2 className="text-2xl md:text-3xl font-display font-bold mb-6 text-white">
+            Gallery Photos ({gallery?.photos?.length || 0})
+          </h2>
+
+          {loadingGallery ? (
+            <div className="text-center py-8 text-gray-400">Loading gallery...</div>
+          ) : !gallery?.photos || gallery.photos.length === 0 ? (
+            <div className="text-center py-8 text-gray-400">No photos in gallery yet.</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {gallery.photos.map((photo, index) => {
+                const imageSource = { asset: photo.asset }
+                const imageUrl = urlFor(imageSource).width(600).fit('max').url()
+
+                return (
+                  <div
+                    key={photo._key}
+                    className="relative group bg-gray-900 rounded-lg overflow-hidden"
+                  >
+                    <div className="relative w-full aspect-square">
+                      <Image
+                        src={imageUrl}
+                        alt={photo.alt || 'Gallery image'}
+                        fill
+                        className="object-contain rounded-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => handleMove(photo._key, 'up')}
+                        disabled={index === 0 || reordering}
+                        className="p-2 bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        title="Move up"
+                      >
+                        <ArrowUp className="w-4 h-4 text-white" />
+                      </button>
+                      <button
+                        onClick={() => handleMove(photo._key, 'down')}
+                        disabled={index === gallery.photos!.length - 1 || reordering}
+                        className="p-2 bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        title="Move down"
+                      >
+                        <ArrowDown className="w-4 h-4 text-white" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(photo._key)}
+                        disabled={deleting === photo._key}
+                        className="p-2 bg-red-900/80 rounded hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        title="Delete"
+                      >
+                        {deleting === photo._key ? (
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    </div>
+                    {photo.alt && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 text-white text-xs truncate">
+                        {photo.alt}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
