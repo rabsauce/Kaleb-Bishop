@@ -175,10 +175,11 @@ export default function UploadPage() {
   const handleDeleteConfirm = async () => {
     if (!deleteConfirm || !gallery?._id) return
 
+    const photoKeyToDelete = deleteConfirm
     setDeleting(deleteConfirm)
     setDeleteConfirm(null)
     try {
-      const response = await fetch(`/api/gallery/delete?key=${photoKey}&galleryId=${gallery._id}`, {
+      const response = await fetch(`/api/gallery/delete?key=${photoKeyToDelete}&galleryId=${gallery._id}`, {
         method: 'DELETE',
       })
 
