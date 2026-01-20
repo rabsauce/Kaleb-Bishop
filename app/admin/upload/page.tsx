@@ -37,25 +37,41 @@ export default function UploadPage() {
         formData.append('alt', file.name.replace(/\.[^/.]+$/, '')) // Use filename as alt text
 
         // Upload to your API route
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        })
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
-          throw new Error(errorData.details || errorData.error || `Failed to upload ${file.name}`)
+        let response: Response
+        try {
+          response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+          })
+        } catch (fetchError) {
+          throw new Error(`Network error: ${fetchError instanceof Error ? fetchError.message : 'Failed to connect to server'}`)
         }
 
-        const data = await response.json()
-        uploadedUrls.push(data.url)
+        let responseData: any
+        try {
+          responseData = await response.json()
+        } catch (jsonError) {
+          throw new Error(`Server returned invalid response (Status: ${response.status} ${response.statusText})`)
+        }
+
+        if (!response.ok) {
+          throw new Error(responseData.details || responseData.error || `Server error: ${response.status} ${response.statusText}`)
+        }
+
+        if (!responseData.success) {
+          throw new Error(responseData.error || 'Upload failed')
+        }
+
+        uploadedUrls.push(responseData.url || responseData.assetId)
       }
 
       setUploaded(uploadedUrls)
       setFiles([])
       alert(`Successfully uploaded ${uploadedUrls.length} image(s)!`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed')
+      const errorMessage = err instanceof Error ? err.message : 'Upload failed'
+      console.error('Upload error:', err)
+      setError(errorMessage)
     } finally {
       setUploading(false)
     }

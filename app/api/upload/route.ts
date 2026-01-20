@@ -86,8 +86,30 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Upload error:', error)
+    
+    // Provide more specific error messages
+    let errorMessage = 'Failed to upload image'
+    let errorDetails = 'Unknown error'
+    
+    if (error instanceof Error) {
+      errorDetails = error.message
+      
+      // Check for specific Sanity errors
+      if (error.message.includes('Unauthorized') || error.message.includes('token')) {
+        errorMessage = 'Authentication failed'
+        errorDetails = 'SANITY_API_TOKEN is missing or invalid. Please check Vercel environment variables.'
+      } else if (error.message.includes('network') || error.message.includes('fetch')) {
+        errorMessage = 'Network error'
+        errorDetails = 'Failed to connect to Sanity. Please check your internet connection.'
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to upload image', details: error instanceof Error ? error.message : 'Unknown error' },
+      { 
+        error: errorMessage, 
+        details: errorDetails,
+        fullError: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.stack : String(error)) : undefined
+      },
       { status: 500 }
     )
   }
