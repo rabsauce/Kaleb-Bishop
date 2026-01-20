@@ -126,6 +126,18 @@ export default function UploadPage() {
 
       setUploaded(uploadedUrls)
       setFiles([])
+      
+      // Refresh gallery immediately after successful upload
+      try {
+        const galleryResponse = await fetch('/api/gallery')
+        if (galleryResponse.ok) {
+          const galleryData = await galleryResponse.json()
+          setGallery(galleryData)
+        }
+      } catch (galleryErr) {
+        console.error('Error refreshing gallery:', galleryErr)
+      }
+      
       alert(`Successfully uploaded ${uploadedUrls.length} image(s)!`)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Upload failed'
@@ -153,20 +165,6 @@ export default function UploadPage() {
     }
     fetchGallery()
   }, [])
-
-  // Refresh gallery after upload
-  useEffect(() => {
-    if (uploaded.length > 0) {
-      const fetchGallery = async () => {
-        const response = await fetch('/api/gallery')
-        if (response.ok) {
-          const data = await response.json()
-          setGallery(data)
-        }
-      }
-      fetchGallery()
-    }
-  }, [uploaded])
 
   const handleDeleteClick = (photoKey: string) => {
     setDeleteConfirm(photoKey)
