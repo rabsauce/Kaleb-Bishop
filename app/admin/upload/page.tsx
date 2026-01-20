@@ -11,8 +11,33 @@ export default function UploadPage() {
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
-    setFiles((prev) => [...prev, ...selectedFiles])
-    setError(null)
+    const maxSize = 4 * 1024 * 1024 // 4MB in bytes (Vercel serverless limit is 4.5MB, using 4MB for safety)
+    
+    // Validate file sizes
+    const validFiles: File[] = []
+    const errors: string[] = []
+    
+    selectedFiles.forEach((file) => {
+      if (file.size > maxSize) {
+        errors.push(`${file.name} is too large (${(file.size / 1024 / 1024).toFixed(2)}MB). Maximum size is 4MB.`)
+      } else if (!file.type.startsWith('image/')) {
+        errors.push(`${file.name} is not an image file.`)
+      } else {
+        validFiles.push(file)
+      }
+    })
+    
+    if (errors.length > 0) {
+      setError(errors.join(' '))
+    }
+    
+    if (validFiles.length > 0) {
+      setFiles((prev) => [...prev, ...validFiles])
+    }
+    
+    if (errors.length === 0 && validFiles.length > 0) {
+      setError(null)
+    }
   }
 
   const removeFile = (index: number) => {
@@ -47,10 +72,19 @@ export default function UploadPage() {
           throw new Error(`Network error: ${fetchError instanceof Error ? fetchError.message : 'Failed to connect to server'}`)
         }
 
+        // Handle 413 Payload Too Large specifically
+        if (response.status === 413) {
+          throw new Error(`File "${file.name}" is too large (${(file.size / 1024 / 1024).toFixed(2)}MB). Maximum file size is 4MB due to server limits. Please compress the image or use a smaller file.`)
+        }
+
         let responseData: any
         try {
           responseData = await response.json()
         } catch (jsonError) {
+          // If we can't parse JSON, provide a helpful error based on status code
+          if (response.status === 413) {
+            throw new Error(`File "${file.name}" is too large (${(file.size / 1024 / 1024).toFixed(2)}MB). Maximum file size is 4MB.`)
+          }
           throw new Error(`Server returned invalid response (Status: ${response.status} ${response.statusText})`)
         }
 
@@ -95,7 +129,7 @@ export default function UploadPage() {
               <p className="mb-2 text-sm text-gray-400">
                 <span className="font-semibold">Click to upload</span> or drag and drop
               </p>
-              <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+              <p className="text-xs text-gray-500">PNG, JPG, GIF up to 4MB</p>
             </div>
             <input
               id="file-upload"
