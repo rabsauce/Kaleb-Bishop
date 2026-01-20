@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 // TypeScript types for the gallery data
 interface GalleryPhoto {
+  _key?: string
   alt: string
   caption?: string
   asset: {
