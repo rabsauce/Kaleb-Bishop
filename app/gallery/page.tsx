@@ -29,6 +29,7 @@ interface GalleryData {
 const galleryQuery = groq`*[_type == "gallery"][0]{
   title,
   photos[]{
+    _key,
     alt,
     caption,
     asset
@@ -107,7 +108,7 @@ export default async function GalleryPage() {
 
             return (
               <div
-                key={`${photo.asset?._ref || index}`}
+                key={photo._key || photo.asset?._ref || index}
                 className="break-inside-avoid mb-4 group relative overflow-hidden rounded-lg"
               >
                 <div className="relative w-full">
