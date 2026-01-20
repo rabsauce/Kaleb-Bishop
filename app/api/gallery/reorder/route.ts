@@ -40,8 +40,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Reorder photos based on the provided order
+    // Handle both _key and asset._ref for photos without _key
     const reorderedPhotos = photoKeys
-      .map((key: string) => gallery.photos.find((p: any) => p._key === key))
+      .map((key: string) => gallery.photos.find((p: any) => 
+        p._key === key || (!p._key && p.asset?._ref === key)
+      ))
       .filter(Boolean)
 
     // Update gallery with reordered photos
