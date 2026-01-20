@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Upload, X, Check, Trash2, ArrowUp, ArrowDown } from 'lucide-react'
+import { Upload, X, Check, Trash2, GripVertical } from 'lucide-react'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity.image'
 
@@ -30,6 +30,9 @@ export default function UploadPage() {
   const [loadingGallery, setLoadingGallery] = useState(true)
   const [deleting, setDeleting] = useState<string | null>(null)
   const [reordering, setReordering] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
@@ -165,14 +168,15 @@ export default function UploadPage() {
     }
   }, [uploaded])
 
-  const handleDelete = async (photoKey: string) => {
-    if (!gallery?._id) return
-    
-    if (!confirm('Are you sure you want to delete this photo?')) {
-      return
-    }
+  const handleDeleteClick = (photoKey: string) => {
+    setDeleteConfirm(photoKey)
+  }
 
-    setDeleting(photoKey)
+  const handleDeleteConfirm = async () => {
+    if (!deleteConfirm || !gallery?._id) return
+
+    setDeleting(deleteConfirm)
+    setDeleteConfirm(null)
     try {
       const response = await fetch(`/api/gallery/delete?key=${photoKey}&galleryId=${gallery._id}`, {
         method: 'DELETE',
@@ -195,21 +199,35 @@ export default function UploadPage() {
     }
   }
 
-  const handleMove = async (photoKey: string, direction: 'up' | 'down') => {
-    if (!gallery?._id || !gallery.photos) return
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index)
+  }
 
-    const currentIndex = gallery.photos.findIndex((p) => p._key === photoKey)
-    if (currentIndex === -1) return
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault()
+    setDragOverIndex(index)
+  }
 
-    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
-    if (newIndex < 0 || newIndex >= gallery.photos.length) return
+  const handleDragLeave = () => {
+    setDragOverIndex(null)
+  }
+
+  const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault()
+    setDragOverIndex(null)
+
+    if (draggedIndex === null || !gallery?._id || !gallery.photos) return
+    if (draggedIndex === dropIndex) {
+      setDraggedIndex(null)
+      return
+    }
 
     setReordering(true)
     try {
       // Create new order
       const newPhotos = [...gallery.photos]
-      const [moved] = newPhotos.splice(currentIndex, 1)
-      newPhotos.splice(newIndex, 0, moved)
+      const [moved] = newPhotos.splice(draggedIndex, 1)
+      newPhotos.splice(dropIndex, 0, moved)
 
       const response = await fetch('/api/gallery/reorder', {
         method: 'POST',
@@ -230,6 +248,7 @@ export default function UploadPage() {
       setError(err instanceof Error ? err.message : 'Failed to reorder photos')
     } finally {
       setReordering(false)
+      setDraggedIndex(null)
     }
   }
 
@@ -350,12 +369,40 @@ export default function UploadPage() {
               {gallery.photos.map((photo, index) => {
                 const imageSource = { asset: photo.asset }
                 const imageUrl = urlFor(imageSource).width(600).fit('max').url()
+                const isDragging = draggedIndex === index
+                const isDragOver = dragOverIndex === index
 
                 return (
                   <div
                     key={photo._key}
-                    className="relative group bg-gray-900 rounded-lg overflow-hidden"
+                    draggable
+                    onDragStart={() => handleDragStart(index)}
+                    onDragOver={(e) => handleDragOver(e, index)}
+                    onDragLeave={handleDragLeave}
+                    onDrop={(e) => handleDrop(e, index)}
+                    className={`relative group bg-gray-900 rounded-lg overflow-hidden cursor-move transition-all ${
+                      isDragging ? 'opacity-50 scale-95' : ''
+                    } ${isDragOver ? 'ring-2 ring-accent-blue scale-105' : ''}`}
                   >
+                    {/* Delete button - top right */}
+                    <button
+                      onClick={() => handleDeleteClick(photo._key)}
+                      disabled={deleting === photo._key}
+                      className="absolute top-2 right-2 z-10 p-2 bg-red-900/90 rounded-full hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors opacity-0 group-hover:opacity-100"
+                      title="Delete"
+                    >
+                      {deleting === photo._key ? (
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <X className="w-4 h-4 text-white" />
+                      )}
+                    </button>
+
+                    {/* Drag handle - top left */}
+                    <div className="absolute top-2 left-2 z-10 p-2 bg-gray-800/90 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                      <GripVertical className="w-4 h-4 text-gray-300" />
+                    </div>
+
                     <div className="relative w-full aspect-square">
                       <Image
                         src={imageUrl}
@@ -363,37 +410,8 @@ export default function UploadPage() {
                         fill
                         className="object-contain rounded-lg"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        draggable={false}
                       />
-                    </div>
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                      <button
-                        onClick={() => handleMove(photo._key, 'up')}
-                        disabled={index === 0 || reordering}
-                        className="p-2 bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        title="Move up"
-                      >
-                        <ArrowUp className="w-4 h-4 text-white" />
-                      </button>
-                      <button
-                        onClick={() => handleMove(photo._key, 'down')}
-                        disabled={index === gallery.photos!.length - 1 || reordering}
-                        className="p-2 bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        title="Move down"
-                      >
-                        <ArrowDown className="w-4 h-4 text-white" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(photo._key)}
-                        disabled={deleting === photo._key}
-                        className="p-2 bg-red-900/80 rounded hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        title="Delete"
-                      >
-                        {deleting === photo._key ? (
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        ) : (
-                          <Trash2 className="w-4 h-4 text-white" />
-                        )}
-                      </button>
                     </div>
                     {photo.alt && (
                       <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 text-white text-xs truncate">
@@ -406,6 +424,40 @@ export default function UploadPage() {
             </div>
           )}
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 rounded-lg p-6 max-w-md w-full border border-gray-700">
+              <h3 className="text-xl font-bold text-white mb-4">Delete Photo?</h3>
+              <p className="text-gray-300 mb-6">
+                Are you sure you want to delete this photo? This action cannot be undone.
+              </p>
+              <div className="flex gap-4 justify-end">
+                <button
+                  onClick={() => setDeleteConfirm(null)}
+                  className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteConfirm}
+                  disabled={deleting === deleteConfirm}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                >
+                  {deleting === deleteConfirm ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Deleting...
+                    </>
+                  ) : (
+                    'Delete'
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
