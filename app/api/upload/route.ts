@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@sanity/client'
 
 // Create a write-enabled client for uploads
@@ -77,6 +78,14 @@ export async function POST(request: NextRequest) {
           },
         ],
       })
+    }
+
+    // Revalidate the gallery page to show new photos immediately
+    try {
+      revalidatePath('/gallery')
+    } catch (revalidateError) {
+      console.warn('Failed to revalidate gallery page:', revalidateError)
+      // Don't fail the upload if revalidation fails
     }
 
     return NextResponse.json({

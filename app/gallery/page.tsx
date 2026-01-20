@@ -35,8 +35,9 @@ const galleryQuery = groq`*[_type == "gallery"][0]{
   }
 }`
 
-// Revalidate every 60 seconds (ISR - Incremental Static Regeneration)
-export const revalidate = 60
+// Revalidate every 10 seconds (ISR - Incremental Static Regeneration)
+// This allows new uploads to appear quickly while still benefiting from caching
+export const revalidate = 10
 
 export default async function GalleryPage() {
   let gallery: GalleryData | null = null
