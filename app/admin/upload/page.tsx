@@ -182,7 +182,8 @@ export default function UploadPage() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to delete photo')
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        throw new Error(errorData.details || errorData.error || 'Failed to delete photo')
       }
 
       // Refresh gallery

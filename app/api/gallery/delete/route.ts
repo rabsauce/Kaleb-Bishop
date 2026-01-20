@@ -40,25 +40,37 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    // Find photo index by _key, or fallback to asset ref if no _key
-    const photoIndex = gallery.photos.findIndex((p: any) => 
+    // Find photo by _key or asset._ref
+    const photoToDelete = gallery.photos.find((p: any) => 
       p._key === photoKey || (!p._key && p.asset?._ref === photoKey)
     )
 
-    if (photoIndex === -1) {
+    if (!photoToDelete) {
+      console.error('Photo not found:', { photoKey, photos: gallery.photos.map((p: any) => ({ _key: p._key, assetRef: p.asset?._ref })) })
       return NextResponse.json(
-        { error: 'Photo not found' },
+        { error: 'Photo not found', details: `Photo with key "${photoKey}" not found in gallery` },
         { status: 404 }
       )
     }
 
-    // Remove the photo by index
-    const updatedPhotos = gallery.photos.filter((_: any, i: number) => i !== photoIndex)
-    
-    await writeClient
-      .patch(galleryId)
-      .set({ photos: updatedPhotos })
-      .commit()
+    // Remove the photo - use unset if it has _key, otherwise filter and set
+    if (photoToDelete._key) {
+      // Use unset for photos with _key
+      await writeClient
+        .patch(galleryId)
+        .unset([`photos[_key=="${photoToDelete._key}"]`])
+        .commit()
+    } else {
+      // For photos without _key, filter and set the array
+      const updatedPhotos = gallery.photos.filter((p: any) => 
+        p.asset?._ref !== photoKey
+      )
+      
+      await writeClient
+        .patch(galleryId)
+        .set({ photos: updatedPhotos })
+        .commit()
+    }
 
     // Revalidate the gallery page
     revalidatePath('/gallery')
