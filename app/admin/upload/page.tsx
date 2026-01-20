@@ -252,7 +252,7 @@ export default function UploadPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           galleryId: gallery._id,
-          photoKeys: newPhotos.map((p) => p._key),
+          photoKeys: newPhotos.map((p) => p._key || p.asset._ref),
         }),
       })
 
@@ -409,12 +409,20 @@ export default function UploadPage() {
                   >
                     {/* Delete button - top right */}
                     <button
-                      onClick={() => handleDeleteClick(photo._key)}
-                      disabled={deleting === photo._key}
-                      className="absolute top-2 right-2 z-10 p-2 bg-red-900/90 rounded-full hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors opacity-0 group-hover:opacity-100"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        handleDeleteClick(photo._key || photo.asset._ref)
+                      }}
+                      disabled={deleting === (photo._key || photo.asset._ref)}
+                      className="absolute top-2 right-2 z-20 p-2 bg-red-900/90 rounded-full hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors opacity-0 group-hover:opacity-100 pointer-events-auto"
                       title="Delete"
+                      onMouseDown={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                      }}
                     >
-                      {deleting === photo._key ? (
+                      {deleting === (photo._key || photo.asset._ref) ? (
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <X className="w-4 h-4 text-white" />
