@@ -43,7 +43,8 @@ export default function UploadPage() {
         })
 
         if (!response.ok) {
-          throw new Error(`Failed to upload ${file.name}`)
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+          throw new Error(errorData.details || errorData.error || `Failed to upload ${file.name}`)
         }
 
         const data = await response.json()

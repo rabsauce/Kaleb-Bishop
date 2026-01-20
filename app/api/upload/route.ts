@@ -11,11 +11,18 @@ const writeClient = createClient({
 })
 
 export async function POST(request: NextRequest) {
-  // Optional: Add authentication check here
-  // const authHeader = request.headers.get('authorization')
-  // if (authHeader !== `Bearer ${process.env.UPLOAD_SECRET}`) {
-  //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  // }
+  // Check if token is configured
+  if (!process.env.SANITY_API_TOKEN) {
+    console.error('SANITY_API_TOKEN is not configured')
+    return NextResponse.json(
+      { 
+        error: 'Server configuration error', 
+        details: 'SANITY_API_TOKEN environment variable is not set. Please add it to Vercel environment variables.' 
+      },
+      { status: 500 }
+    )
+  }
+
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File
