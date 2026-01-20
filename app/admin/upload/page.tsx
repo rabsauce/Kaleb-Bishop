@@ -390,7 +390,7 @@ export default function UploadPage() {
 
                 return (
                   <div
-                    key={photo._key}
+                    key={photo._key || photo.asset._ref || index}
                     draggable
                     onDragStart={(e) => handleDragStart(e, index)}
                     onDragOver={(e) => handleDragOver(e, index)}
