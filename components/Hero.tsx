@@ -42,6 +42,11 @@ export default function Hero() {
         </video>
         {/* Overlay for desktop only — restores original dimmed look */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80 hidden md:block" />
+        {/* Mobile only: gradient just beneath hero text/button/stats so they're readable; rest of video stays bright */}
+        <div
+          className="md:hidden absolute bottom-0 left-0 right-0 h-[52%] bg-gradient-to-t from-black/80 via-black/35 to-transparent pointer-events-none"
+          aria-hidden
+        />
       </div>
 
       {/* Desktop: unchanged layout */}
@@ -167,7 +172,7 @@ export default function Hero() {
 
         <div
           id="hero-more"
-          className="px-4 py-12 bg-gradient-to-b from-black/85 to-black"
+          className="px-4 py-12 bg-gradient-to-b from-black/50 via-black/60 to-black/70"
         >
           <p className="max-w-xl mx-auto text-gray-300 text-base leading-relaxed mb-8">
             {profile.bio}
