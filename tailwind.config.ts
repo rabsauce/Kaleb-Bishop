@@ -34,6 +34,7 @@ const config: Config = {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Bebas Neue', 'Anton', 'Impact', 'sans-serif'],
+        flow: ['Syne', 'Oswald', 'Bebas Neue', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

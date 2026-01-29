@@ -207,7 +207,7 @@ export default function FlowPage() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 text-center">
+            <h2 className="text-2xl md:text-3xl font-display font-semibold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-500 to-orange-400 text-center">
               Specialties
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -218,7 +218,7 @@ export default function FlowPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -4 }}
-                  className="bg-gradient-to-br from-gray-900 via-gray-900 to-black border-2 border-orange-500/30 rounded-xl px-8 py-4 text-center hover:border-orange-500 hover:shadow-[0_0_25px_rgba(255,69,0,0.4)] transition-all duration-200 flame-hover"
+                  className="bg-gradient-to-br from-gray-900 via-orange-950/20 to-black border-2 border-orange-500/30 rounded-xl px-8 py-4 text-center hover:border-orange-500 hover:shadow-[0_0_25px_rgba(255,69,0,0.4)] transition-all duration-200 flame-hover"
                 >
                   <div className="text-3xl mb-2">{specialty.icon}</div>
                   <h3 className="text-lg font-display font-bold text-orange-400 mb-1">
@@ -237,7 +237,7 @@ export default function FlowPage() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 text-center">
+            <h2 className="text-2xl md:text-3xl font-display font-semibold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-rose-500 text-center">
               Available For
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -248,7 +248,7 @@ export default function FlowPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
                   whileHover={{ scale: 1.03, y: -4 }}
-                  className="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-xl p-6 hover:border-red-500 hover:shadow-[0_0_20px_rgba(255,0,0,0.3)] transition-all duration-200 flame-hover"
+                  className="bg-gradient-to-br from-gray-900 via-red-950/20 to-black border-t-4 border-t-red-500/50 border-x-2 border-b-2 border-red-500/30 rounded-2xl p-6 hover:border-red-500 hover:shadow-[0_0_24px_rgba(239,68,68,0.35)] transition-all duration-200 flame-hover"
                 >
                   <h3 className="text-xl font-display font-bold text-red-400 mb-3">
                     {type.title}
