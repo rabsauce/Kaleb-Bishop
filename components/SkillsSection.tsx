@@ -27,7 +27,7 @@ export default function SkillsSection() {
   }
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
+    <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 bg-black">
       <div className="max-w-7xl mx-auto">
         {/* Skills */}
         <motion.div
