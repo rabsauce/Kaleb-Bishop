@@ -36,11 +36,12 @@ export default function Hero() {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full opacity-60 object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-100 md:opacity-60"
         >
           <source src="/opener.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80" />
+        {/* Overlay for desktop only — restores original dimmed look */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80 hidden md:block" />
       </div>
 
       {/* Desktop: unchanged layout */}
