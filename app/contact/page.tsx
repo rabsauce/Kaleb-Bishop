@@ -43,7 +43,7 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 text-white">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-wide mb-4 text-white">
             Get In Touch
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -91,29 +91,41 @@ export default function ContactPage() {
                   <span>{profile.contact.phone}</span>
                 </div>
 
-                {profile.contact.agent && (
+                {profile.contact.agent &&
+                  (profile.contact.agent.name ||
+                    profile.contact.agent.company ||
+                    profile.contact.agent.email ||
+                    profile.contact.agent.phone) && (
                   <div className="pt-4 border-t border-gray-800">
                     <p className="text-gray-500 text-sm mb-2">Agent:</p>
-                    <p className="text-white font-semibold mb-1">
-                      {profile.contact.agent.name}
-                    </p>
-                    <p className="text-gray-400 text-sm mb-2">
-                      {profile.contact.agent.company}
-                    </p>
-                    <a
-                      href={`mailto:${profile.contact.agent.email}`}
-                      className="flex items-center gap-2 text-gray-300 hover:text-accent-blue transition-colors text-sm"
-                    >
-                      <Mail className="w-4 h-4" />
-                      <span>{profile.contact.agent.email}</span>
-                    </a>
-                    <a
-                      href={`tel:${profile.contact.agent.phone}`}
-                      className="flex items-center gap-2 text-gray-300 hover:text-accent-blue transition-colors text-sm mt-1"
-                    >
-                      <Phone className="w-4 h-4" />
-                      <span>{profile.contact.agent.phone}</span>
-                    </a>
+                    {profile.contact.agent.name && (
+                      <p className="text-white font-semibold mb-1">
+                        {profile.contact.agent.name}
+                      </p>
+                    )}
+                    {profile.contact.agent.company && (
+                      <p className="text-gray-400 text-sm mb-2">
+                        {profile.contact.agent.company}
+                      </p>
+                    )}
+                    {profile.contact.agent.email && (
+                      <a
+                        href={`mailto:${profile.contact.agent.email}`}
+                        className="flex items-center gap-2 text-gray-300 hover:text-accent-blue transition-colors text-sm"
+                      >
+                        <Mail className="w-4 h-4" />
+                        <span>{profile.contact.agent.email}</span>
+                      </a>
+                    )}
+                    {profile.contact.agent.phone && (
+                      <a
+                        href={`tel:${profile.contact.agent.phone}`}
+                        className="flex items-center gap-2 text-gray-300 hover:text-accent-blue transition-colors text-sm mt-1"
+                      >
+                        <Phone className="w-4 h-4" />
+                        <span>{profile.contact.agent.phone}</span>
+                      </a>
+                    )}
                   </div>
                 )}
               </div>
@@ -276,7 +288,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-accent-blue text-black font-bold py-3 px-6 rounded-lg hover:bg-accent-blue-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full bg-accent-blue text-black font-bold py-3 px-6 rounded-lg hover:brightness-110 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>Sending...</>

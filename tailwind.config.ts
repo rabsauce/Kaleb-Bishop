@@ -16,6 +16,7 @@ const config: Config = {
           red: '#ff1744',
           'blue-dark': '#0099cc',
           'red-dark': '#cc1133',
+          muted: '#d4c4a8',
         },
         gray: {
           50: '#fafafa',

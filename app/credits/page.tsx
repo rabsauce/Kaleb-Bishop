@@ -13,7 +13,7 @@ export default function CreditsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-display font-bold mb-3 text-white">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-wide mb-3 text-white">
             Credits & Filmography
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">

@@ -43,7 +43,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               href="/"
-              className="text-2xl lg:text-3xl font-display font-bold text-accent-blue hover:text-accent-blue-dark transition-colors"
+              className="text-2xl lg:text-3xl font-display font-bold text-accent-blue hover:text-white transition-colors"
             >
               Kaleb Bishop
             </Link>

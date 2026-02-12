@@ -189,7 +189,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="border-b border-gray-900 hover:bg-gray-900/50 transition-colors"
+                        className="border-b border-gray-900 hover:bg-gray-800/60 transition-colors"
                       >
                         <td className="py-2.5 px-4 text-accent-blue font-bold">{credit.year}</td>
                         <td className="py-2.5 px-4 text-white font-semibold">{credit.project}</td>
@@ -243,7 +243,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
 
         {/* Location Management Section */}
         {locationCredits.length > 0 && (
-          <div>
+          <div className="pt-10 mt-2 border-t border-gray-800">
             <h3 className="text-xl md:text-2xl font-display font-bold mb-6 text-white border-b border-accent-blue/30 pb-3">
               Location Management
             </h3>
@@ -268,7 +268,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="border-b border-gray-900 hover:bg-gray-900/50 transition-colors"
+                        className="border-b border-gray-900 hover:bg-gray-800/60 transition-colors"
                       >
                         <td className="py-2.5 px-4 text-accent-blue font-bold">{credit.year}</td>
                         <td className="py-2.5 px-4 text-white font-semibold">{credit.project}</td>
@@ -322,7 +322,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
 
         {/* Actor Section */}
         {actorCredits.length > 0 && (
-          <div>
+          <div className="pt-10 mt-2 border-t border-gray-800">
             <h3 className="text-xl md:text-2xl font-display font-bold mb-6 text-white border-b border-accent-blue/30 pb-3">
               Actor
             </h3>
@@ -347,7 +347,7 @@ export default function CreditsTable({ credits }: { credits: Credit[] }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="border-b border-gray-900 hover:bg-gray-900/50 transition-colors"
+                        className="border-b border-gray-900 hover:bg-gray-800/60 transition-colors"
                       >
                         <td className="py-2.5 px-4 text-accent-blue font-bold">{credit.year}</td>
                         <td className="py-2.5 px-4 text-white font-semibold">{credit.project}</td>

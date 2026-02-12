@@ -27,7 +27,7 @@ export default function Hero() {
   const compactStats = `${profile.stats.yearsActive}+ Years • ${profile.stats.credits}+ Credits • ${profile.stats.specialties}+ Specialties • ${profile.stats.height} • ${profile.stats.weight}`
 
   return (
-    <section className="relative md:min-h-screen md:flex md:items-end md:justify-center md:overflow-hidden">
+    <section className="relative md:min-h-[88vh] md:flex md:items-end md:justify-center md:overflow-hidden">
       {/* Background Video: fixed on mobile (scroll-over), absolute on desktop */}
       <div className="fixed inset-0 z-0 h-screen w-screen md:absolute md:inset-0 md:h-full md:w-full overflow-hidden">
         <video
@@ -81,14 +81,14 @@ export default function Hero() {
             >
               <Link
                 href="/reel"
-                className="group relative px-10 py-4 bg-accent-blue text-black font-semibold text-lg rounded-lg overflow-hidden hover:bg-accent-blue-dark transition-all duration-200 flex items-center gap-3 hover:scale-105 hover-lift"
+                className="group relative inline-flex items-center justify-center gap-3 min-w-[220px] px-10 py-4 bg-accent-blue text-black font-semibold text-lg rounded-lg overflow-hidden hover:brightness-110 transition-all duration-200 hover:scale-105 hover-lift"
               >
                 <Play className="w-5 h-5" />
                 <span>Watch Reel</span>
               </Link>
               <Link
                 href="/credits"
-                className="group px-10 py-4 border-2 border-accent-blue text-accent-blue font-semibold text-lg rounded-lg hover:bg-accent-blue hover:text-black transition-all duration-200 flex items-center gap-3 hover:scale-105 hover-lift"
+                className="group inline-flex items-center justify-center gap-3 min-w-[220px] px-10 py-4 border-2 border-accent-blue text-accent-blue font-semibold text-lg rounded-lg hover:bg-accent-blue hover:text-black transition-all duration-200 hover:scale-105 hover-lift"
               >
                 <Award className="w-5 h-5" />
                 <span>View Credits</span>
@@ -144,7 +144,7 @@ export default function Hero() {
           >
             <Link
               href="/reel"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-accent-blue text-black font-semibold text-base rounded-lg hover:bg-accent-blue-dark transition-all duration-200"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-accent-blue text-black font-semibold text-base rounded-lg hover:brightness-110 transition-all duration-200"
             >
               <Play className="w-4 h-4" />
               <span>Watch Reel</span>

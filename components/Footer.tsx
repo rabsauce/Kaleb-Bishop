@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Contact Info */}
           <div>
-            <h3 className="text-accent-blue font-display text-xl mb-4">Contact</h3>
+            <h3 className="text-accent-muted font-display text-xl mb-4">Contact</h3>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <a
@@ -20,24 +20,31 @@ export default function Footer() {
                 </a>
               </li>
               <li>{profile.contact.phone}</li>
-              {profile.contact.agent && (
-                <li className="mt-4">
-                  <p className="text-gray-500 text-sm">Agent:</p>
-                  <p className="text-gray-300">{profile.contact.agent.name}</p>
-                  <a
-                    href={`mailto:${profile.contact.agent.email}`}
-                    className="text-gray-400 hover:text-accent-blue transition-colors text-sm"
-                  >
-                    {profile.contact.agent.email}
-                  </a>
-                </li>
-              )}
+              {profile.contact.agent &&
+                (profile.contact.agent.name ||
+                  profile.contact.agent.email ||
+                  profile.contact.agent.phone) && (
+                  <li className="mt-4">
+                    <p className="text-gray-500 text-sm">Agent:</p>
+                    {profile.contact.agent.name && (
+                      <p className="text-gray-300">{profile.contact.agent.name}</p>
+                    )}
+                    {profile.contact.agent.email && (
+                      <a
+                        href={`mailto:${profile.contact.agent.email}`}
+                        className="text-gray-400 hover:text-accent-blue transition-colors text-sm block"
+                      >
+                        {profile.contact.agent.email}
+                      </a>
+                    )}
+                  </li>
+                )}
             </ul>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-accent-blue font-display text-xl mb-4">Quick Links</h3>
+            <h3 className="text-accent-muted font-display text-xl mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -84,7 +91,7 @@ export default function Footer() {
 
           {/* Social Links */}
           <div>
-            <h3 className="text-accent-blue font-display text-xl mb-4">Connect</h3>
+            <h3 className="text-accent-muted font-display text-xl mb-4">Connect</h3>
             <div className="flex space-x-4">
               {profile.contact.social.instagram && (
                 <a

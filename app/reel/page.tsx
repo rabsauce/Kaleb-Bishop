@@ -18,7 +18,7 @@ export default function ReelPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 text-white">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-wide mb-4 text-white">
             Stunt Reel
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -35,7 +35,7 @@ export default function ReelPage() {
         <div className="mt-16 text-center">
           <p className="text-gray-400 mb-4">
             For booking inquiries, please{' '}
-            <a href="/contact" className="text-accent-blue hover:text-accent-blue-dark underline">
+            <a href="/contact" className="text-accent-blue hover:text-white underline">
               contact me
             </a>{' '}
             or reach out to my agent.

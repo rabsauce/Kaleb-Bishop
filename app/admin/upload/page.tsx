@@ -346,7 +346,7 @@ export default function UploadPage() {
         <button
           onClick={handleUpload}
           disabled={files.length === 0 || uploading}
-          className="w-full px-6 py-4 bg-accent-blue text-black font-semibold rounded-lg hover:bg-accent-blue-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-6 py-4 bg-accent-blue text-black font-semibold rounded-lg hover:brightness-110 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {uploading ? (
             <>

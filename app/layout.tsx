@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="bg-background text-foreground antialiased">
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main className="relative z-10 min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

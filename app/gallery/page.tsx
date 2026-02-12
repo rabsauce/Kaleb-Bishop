@@ -1,8 +1,10 @@
 import { groq } from 'next-sanity'
 import Image from 'next/image'
+import Link from 'next/link'
 import { client } from '@/lib/sanity.client'
 import { urlFor } from '@/lib/sanity.image'
 import type { Metadata } from 'next'
+import { Play, Mail } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Photo Gallery | Kaleb Bishop',
@@ -57,16 +59,34 @@ export default async function GalleryPage() {
     return (
       <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-black">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center py-20">
-            <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 text-white">
+          <div className="text-center py-20 max-w-xl mx-auto">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-wide mb-4 text-white">
               {gallery?.title || 'Photo Gallery'}
             </h1>
             {error ? (
               <p className="text-xl text-red-400 mt-4">{error}</p>
             ) : (
-              <p className="text-xl text-gray-400 mt-4">
-                Gallery is empty. Please add photos in Sanity Studio.
-              </p>
+              <>
+                <p className="text-xl text-gray-400 mt-4 mb-10">
+                  Photos are on the way. In the meantime, watch the reel or get in touch.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <Link
+                    href="/reel"
+                    className="inline-flex items-center gap-2 px-8 py-3 bg-accent-blue text-black font-semibold rounded-lg hover:brightness-110 transition-colors"
+                  >
+                    <Play className="w-4 h-4" />
+                    Watch Reel
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 px-8 py-3 border-2 border-accent-blue text-accent-blue font-semibold rounded-lg hover:bg-accent-blue hover:text-black transition-colors"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Get In Touch
+                  </Link>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -81,7 +101,7 @@ export default async function GalleryPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-display font-bold mb-4 text-white">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-wide mb-4 text-white">
             {title || 'Photo Gallery'}
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">

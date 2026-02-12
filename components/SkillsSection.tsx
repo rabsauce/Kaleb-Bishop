@@ -37,7 +37,7 @@ export default function SkillsSection() {
           transition={{ duration: 0.8 }}
           className="mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-white text-center">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white text-center">
             Skills & Specialties
           </h2>
           <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
@@ -57,7 +57,7 @@ export default function SkillsSection() {
                 key={skill.name}
                 variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
-                className="bg-gray-900 border border-gray-800 px-6 py-3 rounded-full text-white hover:border-accent-blue hover:bg-gray-800 transition-all cursor-default"
+                className="bg-gray-900 border border-gray-800 px-6 py-3 rounded-full text-white hover:border-accent-blue hover:bg-gray-800 hover:shadow-[0_0_12px_rgba(0,240,255,0.35)] transition-all cursor-default"
               >
                 {skill.name}
               </motion.div>
@@ -85,7 +85,7 @@ export default function SkillsSection() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
-                className="bg-gray-900 border border-gray-800 px-6 py-3 rounded-full text-white hover:border-accent-blue hover:bg-gray-800 transition-all cursor-default"
+                className="bg-gray-900 border border-gray-800 px-6 py-3 rounded-full text-white hover:border-accent-blue hover:bg-gray-800 hover:shadow-[0_0_12px_rgba(0,240,255,0.35)] transition-all cursor-default"
               >
                 {style}
               </motion.div>
@@ -101,7 +101,7 @@ export default function SkillsSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-8">
+          <div className="bg-gray-900 border border-gray-800 border-l-4 border-l-accent-blue/60 rounded-lg p-8">
             <div className="flex items-center gap-3 mb-6">
               <Award className="w-8 h-8 text-accent-blue" />
               <h3 className="text-2xl font-display font-bold text-white">Certifications</h3>
@@ -123,7 +123,7 @@ export default function SkillsSection() {
             </ul>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-8">
+          <div className="bg-gray-900 border border-gray-800 border-l-4 border-l-accent-blue/60 rounded-lg p-8">
             <div className="flex items-center gap-3 mb-6">
               <Shield className="w-8 h-8 text-accent-blue" />
               <h3 className="text-2xl font-display font-bold text-white">Safety & Training</h3>
